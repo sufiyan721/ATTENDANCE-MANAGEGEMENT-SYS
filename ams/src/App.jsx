@@ -1,33 +1,51 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
 import Login from "./pages/Login";
-import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
-import TakeAttendance from "./pages/TakeAttendance";
-import Report from "./pages/Report";
-import Classes from "./pages/Classes";
 import Students from "./pages/Students";
-import AddStudent from "./pages/AddStudent";
+import Classes from "./pages/Classes";
+import Reports from "./pages/Reports";
+import Attendance from "./pages/Attendance";
+
+import Layout from "./layout/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-
-export default function App(){
-  const isLoggedIn = localStorage.getItem("isLoggedIn")==="true";
+function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={isLoggedIn ? <Navigate to="/home"/> : <Navigate to="/login"/>} />
-        <Route path="/login" element={<Login/>} />
 
-        <Route path="/home" element={<ProtectedRoute><Home/></ProtectedRoute>} />
-        <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
-        <Route path="/attendance" element={<ProtectedRoute><TakeAttendance/></ProtectedRoute>} />
-        <Route path="/report" element={<ProtectedRoute><Report/></ProtectedRoute>} />
-        <Route path="/add-student" element={<ProtectedRoute><AddStudent/></ProtectedRoute>} />
-        <Route path="/classes" element={<ProtectedRoute><Classes /></ProtectedRoute>}/>
-        <Route path="/students" element={<ProtectedRoute><Students /></ProtectedRoute> }/>
+        {/* Default redirect */}
+        <Route
+          path="/"
+          element={
+            localStorage.getItem("isLoggedIn") === "true"
+              ? <Navigate to="/dashboard" />
+              : <Navigate to="/login" />
+          }
+        />
 
-        <Route path="*" element={<Navigate to="/home" replace/>} />
+        {/* Login */}
+        <Route path="/login" element={<Login />} />
+
+        {/* Protected section with layout + sidebar */}
+        <Route 
+          element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/students" element={<Students />} />
+          <Route path="/classes" element={<Classes />} />
+          <Route path="/attendance" element={<Attendance />} />
+          <Route path="/reports" element={<Reports />} />
+        </Route>
+
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
+
+export default App;
