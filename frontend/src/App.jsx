@@ -15,20 +15,13 @@ function App() {
     <BrowserRouter>
       <Routes>
 
-        {/* Default redirect */}
-        <Route
-          path="/"
-          element={
-            localStorage.getItem("isLoggedIn") === "true"
-              ? <Navigate to="/dashboard" />
-              : <Navigate to="/login" />
-          }
-        />
+        {/* Default route */}
+        <Route path="/" element={<Navigate to="/login" />} />
 
         {/* Login */}
         <Route path="/login" element={<Login />} />
 
-        {/* Protected section with layout + sidebar */}
+        {/* Protected routes */}
         <Route 
           element={
             <ProtectedRoute>
@@ -42,6 +35,9 @@ function App() {
           <Route path="/attendance" element={<Attendance />} />
           <Route path="/reports" element={<Reports />} />
         </Route>
+
+        {/* If route not found → redirect */}
+        <Route path="*" element={<Navigate to="/login" />} />
 
       </Routes>
     </BrowserRouter>

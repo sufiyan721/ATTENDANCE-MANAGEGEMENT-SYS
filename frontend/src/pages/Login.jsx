@@ -9,9 +9,9 @@ export default function Login(){
 
   const handleLogin = (e)=>{
     e.preventDefault();
-    if(email==="sufiyan123@gmail.com" && password==="123"){
+    if(email==="sufiyan@gmail.com" && password==="1234"){
       localStorage.setItem("isLoggedIn","true");
-      navigate("/home");
+      navigate("/dashboard");
     } else {
       setErr("Invalid credentials");
     }
